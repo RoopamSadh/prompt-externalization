@@ -88,14 +88,13 @@ def diff_portkey_to_local() -> dict:
             if l.get("_hash") != r["_hash"]:
                 update.append(r)
     # Auto-delete: any local record whose template_id is no longer on Portkey
-    # gets removed — but only when the remote fetch actually returned data.
-    # If `remote` is empty we assume an API/auth failure and skip deletes
-    # rather than wiping the whole library.
-    if remote:
-        for key, l in local_by_key.items():
-            tid, _ = key
-            if tid not in remote_template_ids:
-                delete.append(l)
+    # gets removed. Safety against API failures lives one level up:
+    # fetch_portkey_prompts() now RAISES on failure, so reaching this point
+    # means we have a successful (possibly empty) remote snapshot.
+    for key, l in local_by_key.items():
+        tid, _ = key
+        if tid not in remote_template_ids:
+            delete.append(l)
     return {"add": add, "update": update, "delete": delete}
 
 
