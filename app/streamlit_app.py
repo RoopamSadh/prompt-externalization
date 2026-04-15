@@ -167,14 +167,23 @@ def _commit_after_change(message: str) -> str:
 
 def _do_sync(commit_msg: str = "[from-portkey] sync") -> dict:
     """Full reconcile + commit cycle. Stores a status string in session state."""
+    # Snapshot remote and local counts BEFORE reconcile so we can show them
+    # in the UI — useful for diagnosing why a Sync might find no drift.
+    remote_state = reconciler.fetch_portkey_state()
+    remote_tids = {r["template_id"] for r in remote_state if r["template_id"]}
+    from backend.prompt_manager import _read_file as _rf
+    local_tids = {
+        p.get("template_id") for p in _rf().get("prompts", [])
+        if p.get("template_id")
+    }
     counts = reconciler.reconcile_from_portkey()
     if counts.get("added") or counts.get("updated") or counts.get("deleted"):
         commit_status = _commit_after_change(commit_msg)
     else:
         commit_status = "no changes"
     ss["last_sync_status"] = (
-        f"added={counts['added']} updated={counts['updated']} "
-        f"deleted={counts['deleted']} → {commit_status}"
+        f"remote={len(remote_tids)} local={len(local_tids)} | "
+        f"+{counts['added']} ~{counts['updated']} −{counts['deleted']} → {commit_status}"
     )
     return counts
 
