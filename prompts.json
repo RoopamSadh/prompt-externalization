@@ -1,5 +1,18 @@
 {
-  "prompts": [],
-  "last_synced_at": "2026-04-15T23:01:09.398706+00:00",
+  "prompts": [
+    {
+      "template_id": "ed59e192-32bb-4fd8-b152-8f73d2861da2",
+      "version": 1,
+      "name": "test1",
+      "is_production": false,
+      "timestamp": "2026-04-15T23:05:50.000Z",
+      "system_prompt": "You are a scientist",
+      "provider": "google",
+      "last_origin": "portkey",
+      "_hash": "b8376bf511c67d67ac5c9559680413e01d9201d3",
+      "id": "12d1f7de-234e-444f-9e7a-cffb24cd7625"
+    }
+  ],
+  "last_synced_at": "2026-04-15T23:06:03.358464+00:00",
   "version": "2.0"
 }
