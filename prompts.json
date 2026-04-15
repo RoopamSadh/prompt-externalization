@@ -71,8 +71,20 @@
       "provider": "google",
       "last_origin": "app",
       "_hash": "2eeb92f2fac4bb02b70686ea94aab837e6436cbc"
+    },
+    {
+      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
+      "version": 3,
+      "name": "Test1",
+      "is_production": false,
+      "timestamp": "2026-04-15T21:54:41.000Z",
+      "system_prompt": "You're a writer.",
+      "provider": "google",
+      "last_origin": "portkey",
+      "_hash": "bb2238658d87b138726256ae2983e946b1b7a554",
+      "id": "fc7432c0-f586-4905-8da3-325359512249"
     }
   ],
-  "last_synced_at": "2026-04-15T12:58:59.351036+00:00",
+  "last_synced_at": "2026-04-15T21:54:48.803046+00:00",
   "version": "2.0"
 }
