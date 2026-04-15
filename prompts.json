@@ -1,6 +1,17 @@
 {
   "prompts": [
-    
+    {
+      "id": "b22b8f0e-a20a-4954-90d3-e658dc5fb6b7",
+      "template_id": "2c35ec14-8c63-4a61-bc2f-4b0ae29203d1",
+      "version": 1,
+      "name": "Test1",
+      "is_production": false,
+      "timestamp": "2026-04-15T22:45:20.273860+00:00",
+      "system_prompt": "You are a scientist",
+      "provider": "huggingface",
+      "last_origin": "app",
+      "_hash": "126b3199146d7d0b186802f1885c1801afb57319"
+    }
   ],
   "last_synced_at": "2026-04-15T22:18:17.821133+00:00",
   "version": "2.0"
