@@ -6,11 +6,11 @@
       "version": 1,
       "name": "Test1",
       "is_production": false,
-      "timestamp": "2026-04-15T22:45:20.273860+00:00",
+      "timestamp": "2026-04-15T22:45:20.000Z",
       "system_prompt": "You are a scientist",
-      "provider": "huggingface",
-      "last_origin": "app",
-      "_hash": "126b3199146d7d0b186802f1885c1801afb57319"
+      "provider": "portkey",
+      "last_origin": "portkey",
+      "_hash": "70852d2009ad55c93811f2f14044aa14cdd5beb7"
     },
     {
       "template_id": "2c35ec14-8c63-4a61-bc2f-4b0ae29203d1",
@@ -19,12 +19,12 @@
       "is_production": false,
       "timestamp": "2026-04-15T22:45:54.000Z",
       "system_prompt": "You are a scientist. You have expert knowledge in cse",
-      "provider": "huggingface",
+      "provider": "portkey",
       "last_origin": "portkey",
-      "_hash": "be627e2b0543b41599fa2aeab11f24ae50b6d54a",
+      "_hash": "d460f4e891399b80941e84325c6b7047f68a36ce",
       "id": "fe3b714a-afa3-425c-8087-516a3354cbc6"
     }
   ],
-  "last_synced_at": "2026-04-15T22:45:56.626420+00:00",
+  "last_synced_at": "2026-04-15T22:46:31.048767+00:00",
   "version": "2.0"
 }
