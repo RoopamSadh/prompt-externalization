@@ -83,6 +83,18 @@
       "last_origin": "portkey",
       "_hash": "bb2238658d87b138726256ae2983e946b1b7a554",
       "id": "fc7432c0-f586-4905-8da3-325359512249"
+    },
+    {
+      "id": "93651cd3-cdb5-4166-b23f-1252adb8ecca",
+      "template_id": "4ad33ed5-ab5d-4230-b475-e7337261a72c",
+      "version": 1,
+      "name": "Test4",
+      "is_production": false,
+      "timestamp": "2026-04-15T22:01:06.066202+00:00",
+      "system_prompt": "You are a shopkeeper",
+      "provider": "huggingface",
+      "last_origin": "app",
+      "_hash": "e84c48cc57a55eeb9be2fac461f64ba0ff54a9e5"
     }
   ],
   "last_synced_at": "2026-04-15T21:54:48.803046+00:00",
