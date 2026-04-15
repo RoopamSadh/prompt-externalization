@@ -41,7 +41,11 @@ from backend.prompt_manager import (
     get_templates,
     get_template_versions,
 )
-from backend.portkey_client import send_prompt
+from backend.portkey_client import (
+    send_prompt,
+    push_prompt_to_portkey,
+    update_prompt_on_portkey,
+)
 from backend import reconciler
 from backend.github_writer import commit_file, _enabled as _github_enabled
 from config.settings import GITHUB_REPO as _GH_REPO, GITHUB_TOKEN as _GH_TOKEN
@@ -343,54 +347,60 @@ with col_detail:
 # ── ACTIONS ─────────────────────────────────────────────────────────────────
 
 
-def _resolve_latest_tid(is_new_template: bool) -> str:
-    """Find the template_id of the record we just saved (after Portkey assigns it)."""
-    if not is_new_template and ss.selected_template_id:
-        return ss.selected_template_id
-    try:
-        data = json.loads(Path(PROMPTS_FILE).read_text(encoding="utf-8"))
-    except Exception:
-        return ""
-    for p in reversed(data.get("prompts", [])):
-        if p.get("system_prompt") == ss.form_system and p.get("template_id"):
-            return p["template_id"]
-    return ""
-
-
 def _save_new_or_edit(is_new_template: bool) -> None:
     if not ss.form_system.strip():
         st.warning("System prompt cannot be empty.")
         return
 
+    with st.spinner("Pushing to Portkey…"):
+        if is_new_template:
+            result = push_prompt_to_portkey(
+                system_prompt=ss.form_system,
+                user_prompt="",
+                provider=ss.form_provider,
+                name=ss.form_name or None,
+            )
+        else:
+            result = update_prompt_on_portkey(
+                prompt_id=ss.selected_template_id,
+                system_prompt=ss.form_system,
+                user_prompt="",
+                provider=ss.form_provider,
+            )
+
+    if not result or not result.get("id"):
+        st.error(
+            "Portkey rejected the push. "
+            "Check that PORTKEY_VK_GOOGLE / PORTKEY_API_KEY are valid."
+        )
+        return
+
+    new_tid = result["id"]
+    new_version = int(result.get("version") or 1)
+
     add_prompt(
         system_prompt=ss.form_system,
         provider=ss.form_provider,
-        template_id=None if is_new_template else ss.selected_template_id,
-        version=None,
+        template_id=new_tid,
+        version=new_version,
         name=ss.form_name or None,
         is_production=False,
         last_origin="app",
     )
 
-    with st.spinner("Pushing to Portkey…"):
-        try:
-            counts = reconciler.reconcile_to_portkey()
-        except Exception as exc:
-            st.error(f"Push to Portkey failed: {exc}")
-            return
-
-    if counts.get("failed"):
-        st.error(f"Portkey push had {counts['failed']} failure(s) — see console.")
-
     msg_kind = "create" if is_new_template else "edit"
-    _commit_after_change(f"[app] {msg_kind} prompt '{ss.form_name or ''}'")
+    commit_status = _commit_after_change(
+        f"[app] {msg_kind} prompt '{ss.form_name or new_tid}' v{new_version}"
+    )
+    ss["last_sync_status"] = (
+        f"{msg_kind} v{new_version} on Portkey → {commit_status}"
+    )
 
-    tid = _resolve_latest_tid(is_new_template)
-    if tid:
-        latest = get_template_versions(tid)
-        if latest:
-            _load_record(latest[-1])
-    st.success("Saved.")
+    # Load the new version into the form so we're now editing it.
+    versions = get_template_versions(new_tid)
+    if versions:
+        _load_record(versions[-1])
+    st.success(f"Saved v{new_version} on Portkey.")
     st.rerun()
 
 
