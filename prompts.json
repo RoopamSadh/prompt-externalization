@@ -1,0 +1,71 @@
+{
+  "prompts": [
+    {
+      "id": "a830ac34-65de-4e6d-bcda-7064564530cd",
+      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
+      "version": 1,
+      "name": "Test1",
+      "is_default": false,
+      "timestamp": "2026-04-15T11:11:20.000Z",
+      "system_prompt": "You're a botanist.",
+      "user_prompt": "The most stingy plant.",
+      "provider": "google",
+      "response": null,
+      "source": "portkey"
+    },
+    {
+      "id": "c7ead043-2485-4435-8d00-268d4e893e8e",
+      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
+      "version": 2,
+      "name": "Test1",
+      "is_default": false,
+      "timestamp": "2026-04-15T11:16:13.668127+00:00",
+      "system_prompt": "You're a scientist.",
+      "user_prompt": "The most stingy plant.",
+      "provider": "google",
+      "response": null,
+      "source": "frontend"
+    },
+    {
+      "id": "6a8f1ad8-10b2-4070-a40b-59579b8af9a0",
+      "template_id": "261ca8a9-112c-4a24-9254-df5bec4ef5ec",
+      "version": 1,
+      "name": "Test2",
+      "is_default": false,
+      "timestamp": "2026-04-15T12:57:28.000Z",
+      "system_prompt": "You're a botanist.",
+      "user_prompt": "Which plant is most poisonous.",
+      "provider": "google",
+      "response": "\u26a0\ufe0f Error: Error code: 503 - {'error': {'message': 'google error: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'type': 'UNAVAILABLE', 'param': None, 'code': 503}, 'provider': 'google'}",
+      "source": "portkey"
+    },
+    {
+      "id": "fcfdfca4-5d99-4de6-a871-7f5e533dc4fc",
+      "template_id": "261ca8a9-112c-4a24-9254-df5bec4ef5ec",
+      "version": 2,
+      "name": "Test2",
+      "is_default": false,
+      "timestamp": "2026-04-15T12:58:52.000Z",
+      "system_prompt": "You're a botanist.",
+      "user_prompt": "Which plant is most poisonous.",
+      "provider": "google",
+      "response": "As a botanist, I can tell you that \"most poisonous\" is a complex title, as toxicity can depend on the amount ingested, the specific toxins involved, the part of the plant consumed, the individual's physiology (age, weight, existing conditions), and even the method of exposure (ingestion, skin contact, inhalation).\n\nHowever, if we're talking about plants that contain compounds so potent that even a small amount can be lethal to humans if ingested, a few regularly top the lists. Here are some strong contenders for the title of \"most poisonous,\" with explanations:\n\n1.  **Castor Bean ( *Ricinus communis* )**\n    *   **Why it's a top contender:** This plant produces **ricin**, one of the most potent naturally occurring toxins known. A single chewed castor bean seed can be fatal to an adult. Ricin is a potent cytotoxin that inhibits protein synthesis within cells, leading to cell death throughout the body. Symptoms include nausea, vomiting, abdominal cramps, internal bleeding, and eventual organ failure.\n    *   **Where it's found:** Widely cultivated as an ornamental plant in gardens, and grows wild in many tropical and subtropical regions.\n\n2.  **Monkshood / Wolfsbane ( *Aconitum napellus* )**\n    *   **Why it's a top contender:** Contains highly toxic **aconitine** alkaloids. This plant is often cited as one of the most poisonous plants in the Northern Hemisphere. Even skin contact with the sap can cause numbness and tingling, and severe poisoning (which can be fatal) can occur from ingesting a very small amount. Aconitine directly affects the heart and nervous system, leading to irregular heartbeat, paralysis, and death.\n    *   **Where it's found:** Popular ornamental plant in temperate gardens, native to mountainous regions of Europe and Asia.\n\n3.  **Water Hemlock ( *Cicuta maculata* or *Cicuta virosa* )**\n    *   **Why it's a top contender:** Often considered the most poisonous plant in North America. It contains **cicutoxin**, a potent neurotoxin that causes violent, painful convulsions, nausea, vomiting, tremors, and eventually death, often from respiratory failure. The roots are particularly dangerous, as they can be mistaken for parsnips or other edible roots.\n    *   **Where it's found:** Native to marshy areas, wet meadows, and ditches across North America and parts of Europe.\n\n4.  **Deadly Nightshade ( *Atropa belladonna* )**\n    *   **Why it's a top contender:** Contains **tropane alkaloids** like atropine, scopolamine, and hyoscyamine. All parts of the plant are poisonous, especially the sweet, appealing berries (which are deadly if consumed) and the roots. These compounds disrupt the nervous system, leading to hallucinations, delirium, dilated pupils, rapid heartbeat, paralysis, and respiratory failure. As few as 2-5 berries can be fatal to a child.\n    *   **Where it's found:** Native to Europe, North Africa, and Western Asia, often found in woodland clearings and waste ground.\n\n5.  **Oleander ( *Nerium oleander* )**\n    *   **Why it's a top contender:** Contains **cardiac glycosides** (e.g., oleandrin, neriin) that are highly toxic to the heart. Every part of the plant, including the smoke from burning it, is poisonous. Ingestion can cause severe digestive upset, abnormal heart function (leading to cardiac arrest), and death. Even honey made by bees feeding on oleander flowers can be toxic.\n    *   **Where it's found:** Widely planted as an ornamental shrub in warm, temperate, and subtropical regions around the world.\n\n**In summary:** While all of these are incredibly dangerous, the **Castor Bean** is often highlighted due to the extreme potency of ricin, and **Monkshood** is infamous for its rapid and often fatal effects from even minimal exposure. **Water Hemlock** is exceptionally dangerous because its roots can be easily mistaken for edible plants.\n\nIt's crucial to never ingest any plant material unless you are absolutely certain of its identity and safety. When in doubt, always assume a plant is poisonous.",
+      "source": "portkey"
+    },
+    {
+      "id": "6245a4fc-6bee-45b1-b88a-ce0a8eada76b",
+      "template_id": "fc55bfc5-4c5b-4a4b-bf0d-3ae4266a1ecb",
+      "version": 1,
+      "name": "Test3",
+      "is_default": true,
+      "timestamp": "2026-04-15T13:05:24.333718+00:00",
+      "system_prompt": "You are a zoologist.",
+      "user_prompt": "Which is most venamous animal.",
+      "provider": "google",
+      "response": null,
+      "source": "frontend"
+    }
+  ],
+  "last_synced_at": "2026-04-15T12:58:59.351036+00:00",
+  "version": "1.0"
+}
