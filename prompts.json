@@ -95,6 +95,18 @@
       "provider": "huggingface",
       "last_origin": "app",
       "_hash": "e84c48cc57a55eeb9be2fac461f64ba0ff54a9e5"
+    },
+    {
+      "id": "25694bc1-0c14-40d6-8631-b7fbcb79e1c7",
+      "template_id": "5fa097df-fa6e-4f75-8f79-fc76d0783742",
+      "version": 1,
+      "name": "Test5",
+      "is_production": false,
+      "timestamp": "2026-04-15T22:07:59.143825+00:00",
+      "system_prompt": "You are a shopkeeper",
+      "provider": "google",
+      "last_origin": "app",
+      "_hash": "4e38b83ee948e3261d6458c98d2786be340c3bfd"
     }
   ],
   "last_synced_at": "2026-04-15T22:07:53.783352+00:00",
