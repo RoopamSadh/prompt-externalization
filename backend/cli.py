@@ -33,9 +33,28 @@ def cmd_reconcile_from_portkey() -> int:
     return 0
 
 
+def cmd_delete_on_portkey() -> int:
+    """Delete one or more template_ids on Portkey.
+
+    Usage: python -m backend.cli delete-on-portkey <tid1> [<tid2> ...]
+    """
+    from backend.portkey_client import delete_prompt_on_portkey
+    tids = sys.argv[2:]
+    if not tids:
+        print("[cli] No template_ids provided.")
+        return 0
+    failed = 0
+    for tid in tids:
+        if not delete_prompt_on_portkey(tid):
+            failed += 1
+    print(f"[cli] delete-on-portkey: requested={len(tids)} failed={failed}")
+    return 0
+
+
 COMMANDS = {
     "apply-to-portkey": cmd_apply_to_portkey,
     "reconcile-from-portkey": cmd_reconcile_from_portkey,
+    "delete-on-portkey": cmd_delete_on_portkey,
 }
 
 

@@ -33,7 +33,32 @@ jobs:
       - name: Install deps
         run: pip install -r requirements.txt
 
-      - name: Apply diff to Portkey
+      - name: Detect deleted template_ids
+        id: deletes
+        run: |
+          set -e
+          python - <<'PY'
+          import json, subprocess, os
+          prev_raw = subprocess.run(
+              ["git","show","HEAD~1:prompts.json"],
+              capture_output=True, text=True,
+          ).stdout or "{}"
+          curr_raw = open("prompts.json").read()
+          prev = {p.get("template_id") for p in json.loads(prev_raw).get("prompts", []) if p.get("template_id")}
+          curr = {p.get("template_id") for p in json.loads(curr_raw).get("prompts", []) if p.get("template_id")}
+          deleted = sorted(prev - curr)
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"tids={' '.join(deleted)}\n")
+          print("Deleted template_ids:", deleted)
+          PY
+
+      - name: Delete on Portkey
+        if: steps.deletes.outputs.tids != ''
+        env:
+          PORTKEY_API_KEY: ${{ secrets.PORTKEY_API_KEY }}
+        run: python -m backend.cli delete-on-portkey ${{ steps.deletes.outputs.tids }}
+
+      - name: Apply add/update diff to Portkey
         env:
           PORTKEY_API_KEY:        ${{ secrets.PORTKEY_API_KEY }}
           PORTKEY_COLLECTION_ID:  ${{ secrets.PORTKEY_COLLECTION_ID }}

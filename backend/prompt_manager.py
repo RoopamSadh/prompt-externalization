@@ -254,6 +254,19 @@ def bulk_add_prompts(records: list[dict]) -> int:
     return added
 
 
+def delete_template(template_id: str) -> int:
+    """Remove ALL local records belonging to a template_id. Returns count removed."""
+    if not template_id:
+        return 0
+    data = _read_file()
+    before = len(data["prompts"])
+    data["prompts"] = [p for p in data["prompts"] if p.get("template_id") != template_id]
+    removed = before - len(data["prompts"])
+    if removed:
+        _write_file(data)
+    return removed
+
+
 def prune_missing_templates(remote_template_ids: set[str]) -> int:
     """
     Remove local records whose template_id is NOT in the remote set.

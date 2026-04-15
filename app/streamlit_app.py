@@ -38,6 +38,7 @@ from streamlit_autorefresh import st_autorefresh
 from config.settings import APP_ROLE, LLM_PROVIDERS, PROMPTS_FILE
 from backend.prompt_manager import (
     add_prompt,
+    delete_template,
     get_templates,
     get_template_versions,
 )
@@ -45,6 +46,7 @@ from backend.portkey_client import (
     send_prompt,
     push_prompt_to_portkey,
     update_prompt_on_portkey,
+    delete_prompt_on_portkey,
 )
 from backend import reconciler
 from backend.github_writer import commit_file, _enabled as _github_enabled
@@ -319,17 +321,22 @@ with col_edit:
     )
 
     if IS_DEV:
-        b1, b2, b3 = st.columns(3)
         if editing:
+            b1, b2, b3, b4 = st.columns(4)
             save_clicked = b1.button("💾 Save edit", type="primary", use_container_width=True)
             new_clicked = b2.button("✨ Save as new", use_container_width=True)
+            run_clicked = b3.button("▶ Run", use_container_width=True)
+            delete_clicked = b4.button("🗑 Delete", use_container_width=True)
         else:
+            b1, b2 = st.columns(2)
             save_clicked = b1.button("💾 Save", type="primary", use_container_width=True)
+            run_clicked = b2.button("▶ Run", use_container_width=True)
             new_clicked = False
-        run_clicked = b3.button("▶ Run", use_container_width=True)
+            delete_clicked = False
     else:
         save_clicked = False
         new_clicked = False
+        delete_clicked = False
         run_clicked = st.button("▶ Run", type="primary", use_container_width=True)
 
     st.subheader("💬 Response")
@@ -458,6 +465,37 @@ if save_clicked:
 
 if new_clicked:
     _save_new_or_edit(is_new_template=True)
+
+if delete_clicked:
+    ss["confirm_delete"] = ss.selected_template_id
+
+if ss.get("confirm_delete") and ss["confirm_delete"] == ss.selected_template_id:
+    st.warning(
+        f"Delete **{ss.form_name or ss.selected_template_id}** "
+        f"from Portkey AND repo? This removes ALL versions."
+    )
+    cc1, cc2 = st.columns(2)
+    if cc1.button("✅ Yes, delete", type="primary", key="confirm_yes"):
+        tid = ss.selected_template_id
+        with st.spinner("Deleting on Portkey…"):
+            ok = delete_prompt_on_portkey(tid)
+        if not ok:
+            st.error("Portkey delete failed — see Last sync line for details.")
+        else:
+            removed = delete_template(tid)
+            commit_status = _commit_after_change(
+                f"[app] delete prompt '{ss.form_name or tid}'"
+            )
+            ss["last_sync_status"] = (
+                f"deleted {removed} local row(s) → {commit_status}"
+            )
+            ss.pop("confirm_delete", None)
+            _clear_form()
+            st.success("Deleted.")
+            st.rerun()
+    if cc2.button("Cancel", key="confirm_no"):
+        ss.pop("confirm_delete", None)
+        st.rerun()
 
 if run_clicked:
     if not ss.form_user.strip():

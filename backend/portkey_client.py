@@ -276,6 +276,23 @@ def update_prompt_on_portkey(
         return None
 
 
+def delete_prompt_on_portkey(prompt_id: str) -> bool:
+    """Delete an entire prompt (all versions). DELETE /v1/prompts/{id}."""
+    try:
+        resp = requests.delete(
+            f"{PORTKEY_BASE_URL}/prompts/{prompt_id}",
+            headers=_admin_headers(),
+            timeout=15,
+        )
+        resp.raise_for_status()
+        print(f"[portkey] Deleted prompt id={prompt_id}")
+        return True
+    except requests.RequestException as exc:
+        body = exc.response.text if getattr(exc, "response", None) is not None else ""
+        print(f"[portkey] Failed to delete {prompt_id}: {exc}  body={body}")
+        return False
+
+
 def publish_prompt_version(prompt_id: str, version: int) -> bool:
     """Mark a version as the default. PUT /v1/prompts/{id}/makeDefault."""
     try:
