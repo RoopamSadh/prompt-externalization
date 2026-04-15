@@ -11,8 +11,20 @@
       "provider": "huggingface",
       "last_origin": "app",
       "_hash": "126b3199146d7d0b186802f1885c1801afb57319"
+    },
+    {
+      "template_id": "2c35ec14-8c63-4a61-bc2f-4b0ae29203d1",
+      "version": 2,
+      "name": "Test1",
+      "is_production": false,
+      "timestamp": "2026-04-15T22:45:54.000Z",
+      "system_prompt": "You are a scientist. You have expert knowledge in cse",
+      "provider": "huggingface",
+      "last_origin": "portkey",
+      "_hash": "be627e2b0543b41599fa2aeab11f24ae50b6d54a",
+      "id": "fe3b714a-afa3-425c-8087-516a3354cbc6"
     }
   ],
-  "last_synced_at": "2026-04-15T22:18:17.821133+00:00",
+  "last_synced_at": "2026-04-15T22:45:56.626420+00:00",
   "version": "2.0"
 }
