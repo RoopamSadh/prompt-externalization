@@ -1,28 +1,34 @@
 """
 Prompt Manager – read / write operations on prompts.json.
 
-The file acts as the single source of truth on the Git side.  Every prompt
-fired from the UI is appended here *before* the Portkey API call, so the
-file always contains the latest history.
+This file is the canonical, git-tracked mirror of the Portkey prompt library.
+Each record represents one VERSION of one system prompt.
 
-Schema of prompts.json:
+Schema (v2):
 {
   "prompts": [
     {
-      "id": "<uuid>",
-      "timestamp": "<ISO-8601>",
-      "system_prompt": "...",
-      "user_prompt": "...",
-      "provider": "openai",
-      "response": "...",
-      "source": "frontend" | "portkey"
+      "id":            "<local-uuid>",         # local stable identifier
+      "template_id":   "<portkey-id|null>",    # null until Portkey assigns
+      "version":       <int|null>,              # numeric Portkey version
+      "name":          "string",
+      "is_production": false,                   # carries Portkey 'production' label
+      "timestamp":     "<ISO-8601>",
+      "system_prompt": "string",                # the versioned artifact
+      "provider":      "google",
+      "last_origin":   "portkey | app | manual",
+      "_hash":         "<sha1 of system_prompt + provider>"
     }
   ],
-  "last_synced_at": "<ISO-8601> | null",
-  "version": "1.0"
+  "last_synced_at": "<ISO-8601>|null",
+  "version": "2.0"
 }
+
+Runtime-only fields (user_prompt, response) are NOT stored — they belong to
+the run context and would create commit noise.
 """
 
+import hashlib
 import json
 import uuid
 from datetime import datetime, timezone
@@ -32,9 +38,18 @@ from typing import Optional
 from config.settings import PROMPTS_FILE
 
 
+SCHEMA_VERSION = "2.0"
+
+
+def compute_hash(system_prompt: str, provider: str) -> str:
+    """Stable content fingerprint used for drift detection between Portkey and git."""
+    payload = f"{(system_prompt or '').strip()}|{(provider or '').strip().lower()}"
+    return hashlib.sha1(payload.encode("utf-8")).hexdigest()
+
+
 def _read_file(path: Path = PROMPTS_FILE) -> dict:
     """Load the prompts JSON file.  Creates a fresh one if missing or corrupted."""
-    skeleton = {"prompts": [], "last_synced_at": None, "version": "1.0"}
+    skeleton = {"prompts": [], "last_synced_at": None, "version": SCHEMA_VERSION}
     if not path.exists():
         path.write_text(json.dumps(skeleton, indent=2))
         return skeleton
@@ -69,32 +84,31 @@ def _ver_key(v) -> int:
 
 def add_prompt(
     system_prompt: str,
-    user_prompt: str,
     provider: str,
-    response: Optional[str] = None,
-    source: str = "frontend",
     template_id: Optional[str] = None,
     version: Optional[int] = None,
     name: Optional[str] = None,
-    is_default: bool = False,
+    is_production: bool = False,
+    last_origin: str = "manual",
 ) -> dict:
     """
-    Append a new prompt record and return it. `template_id` + `version`
-    identify a Portkey prompt version; `id` remains a local UUID used for
-    updating the local response after an LLM call.
+    Append a new system-prompt record (one Portkey version) and return it.
+
+    `template_id` and `version` may be None on creation when the record was
+    drafted manually without a Portkey id yet — the reconciler will fill them
+    in on the next round-trip.
     """
     record = {
         "id": str(uuid.uuid4()),
         "template_id": template_id,
         "version": _ver_key(version) if version is not None else None,
         "name": name,
-        "is_default": is_default,
+        "is_production": is_production,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "system_prompt": system_prompt,
-        "user_prompt": user_prompt,
         "provider": provider,
-        "response": response,
-        "source": source,
+        "last_origin": last_origin,
+        "_hash": compute_hash(system_prompt, provider),
     }
     data = _read_file()
     data["prompts"].append(record)
@@ -153,22 +167,12 @@ def get_template_versions(template_id: str) -> list[dict]:
     return sorted(versions, key=_ver_key)
 
 
-def mark_default_version(template_id: str, version: int) -> None:
-    """Set is_default flag for the given version of a template, clearing peers."""
+def mark_production_version(template_id: str, version: int) -> None:
+    """Move the production label locally to the given version of a template."""
     data = _read_file()
     for p in data["prompts"]:
         if p.get("template_id") == template_id:
-            p["is_default"] = (p.get("version") == version)
-    _write_file(data)
-
-
-def update_response(prompt_id: str, response: str) -> None:
-    """Attach the LLM response to an existing prompt record by its id."""
-    data = _read_file()
-    for p in data["prompts"]:
-        if p["id"] == prompt_id:
-            p["response"] = response
-            break
+            p["is_production"] = (_ver_key(p.get("version")) == _ver_key(version))
     _write_file(data)
 
 
@@ -195,11 +199,10 @@ def prompt_exists(prompt_id: str) -> bool:
 
 def bulk_add_prompts(records: list[dict]) -> int:
     """
-    Merge a batch of prompt records (typically from Portkey sync).
+    Merge a batch of prompt records (typically from Portkey reconcile).
 
-    Dedup key: (template_id, version) when both are present; falls back to
-    local 'id' for legacy records. Also refreshes `is_default` on existing
-    rows so default-pointer changes in Portkey are reflected locally.
+    Dedup key: (template_id, version). Refreshes content fields and the
+    is_production flag on existing rows; preserves the local id.
     """
     data = _read_file()
 
@@ -214,19 +217,26 @@ def bulk_add_prompts(records: list[dict]) -> int:
     added = 0
     for rec in records:
         tid, ver = rec.get("template_id"), rec.get("version")
-        if tid and ver is not None:
-            ver_int = _ver_key(ver)
-            rec["version"] = ver_int  # normalize on ingest
-            key = (tid, ver_int)
+        # Always normalize: int version, recomputed hash, default last_origin.
+        if ver is not None:
+            rec["version"] = _ver_key(ver)
+        rec["_hash"] = compute_hash(rec.get("system_prompt", ""), rec.get("provider", ""))
+        rec.setdefault("last_origin", "portkey")
+
+        if tid and rec.get("version") is not None:
+            key = (tid, rec["version"])
             if key in existing_by_tv:
-                # Refresh metadata that may have changed on Portkey side;
-                # keep local-only fields (id, response).
                 existing = existing_by_tv[key]
-                existing["is_default"] = rec.get("is_default", False)
-                for field in ("provider", "name", "system_prompt", "user_prompt"):
+                existing["is_production"] = rec.get("is_production", existing.get("is_production", False))
+                for field in ("provider", "name", "system_prompt"):
                     new_val = rec.get(field)
                     if new_val:
                         existing[field] = new_val
+                existing["_hash"] = compute_hash(
+                    existing.get("system_prompt", ""),
+                    existing.get("provider", ""),
+                )
+                existing["last_origin"] = rec["last_origin"]
                 continue
             data["prompts"].append(rec)
             existing_by_tv[key] = rec
@@ -239,7 +249,6 @@ def bulk_add_prompts(records: list[dict]) -> int:
             existing_ids.add(rec.get("id"))
             added += 1
 
-    # Always persist (even if 0 added) so is_default updates are saved.
     data["prompts"].sort(key=lambda p: p.get("timestamp", ""))
     _write_file(data)
     return added

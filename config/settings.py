@@ -52,6 +52,16 @@ GIT_AUTO_COMMIT: bool = os.getenv("GIT_AUTO_COMMIT", "false").lower() == "true"
 GIT_REMOTE: str = os.getenv("GIT_REMOTE", "origin")
 GIT_BRANCH: str = os.getenv("GIT_BRANCH", "main")
 
+# ── App role ────────────────────────────────────────────────────────────────
+# 'dev'  → full UI: New / Save / Save edit / Run buttons visible
+# 'user' → read-only system prompts; only Run is available
+APP_ROLE: str = os.getenv("APP_ROLE", "user").lower()
+
+# ── GitHub (used by the app to commit prompts.json via Contents API) ────────
+GITHUB_TOKEN:  str = os.getenv("GITHUB_TOKEN", "")
+GITHUB_REPO:   str = os.getenv("GITHUB_REPO", "")     # e.g. "RoopamSadh/prompt-externalization"
+GITHUB_BRANCH: str = os.getenv("GITHUB_BRANCH", "main")
+
 # ── Portkey Admin API ────────────────────────────────────────────────────────
 PORTKEY_BASE_URL: str = "https://api.portkey.ai/v1"
 

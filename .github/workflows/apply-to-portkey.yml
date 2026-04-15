@@ -1,0 +1,56 @@
+name: Apply prompts.json to Portkey
+
+# Triggers when prompts.json changes on main, EXCEPT when the change came from
+# the cron poller or this workflow's own id-backfill commit (loop prevention).
+
+on:
+  push:
+    branches: [main]
+    paths: [prompts.json]
+  workflow_dispatch: {}
+
+jobs:
+  apply:
+    if: |
+      !contains(github.event.head_commit.message, '[from-portkey]')
+      && !contains(github.event.head_commit.message, '[id-backfill]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Apply diff to Portkey
+        env:
+          PORTKEY_API_KEY:        ${{ secrets.PORTKEY_API_KEY }}
+          PORTKEY_COLLECTION_ID:  ${{ secrets.PORTKEY_COLLECTION_ID }}
+          PORTKEY_VK_GOOGLE:      ${{ secrets.PORTKEY_VK_GOOGLE }}
+          PORTKEY_VK_HUGGINGFACE: ${{ secrets.PORTKEY_VK_HUGGINGFACE }}
+          GOOGLE_API_KEY:         ${{ secrets.GOOGLE_API_KEY }}
+          HUGGINGFACE_API_KEY:    ${{ secrets.HUGGINGFACE_API_KEY }}
+        run: python -m backend.cli apply-to-portkey
+
+      - name: Commit returned ids/versions
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet prompts.json; then
+            git add prompts.json
+            git commit -m "[id-backfill] $(date -u +%FT%TZ)"
+            git push
+          else
+            echo "No id/version changes to commit."
+          fi
