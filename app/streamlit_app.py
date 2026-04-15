@@ -166,19 +166,22 @@ def _commit_after_change(message: str) -> str:
 
 
 def _do_sync(commit_msg: str = "[from-portkey] sync") -> dict:
-    """Full reconcile + commit cycle. Stores a status string in session state."""
+    """Full reconcile + commit cycle. Stores a status string in session state.
+    Never raises — Portkey API errors are surfaced via last_sync_status only.
+    """
     try:
         remote_state = reconciler.fetch_portkey_state()
+        remote_tids = {r["template_id"] for r in remote_state if r["template_id"]}
+        from backend.prompt_manager import _read_file as _rf
+        local_tids = {
+            p.get("template_id") for p in _rf().get("prompts", [])
+            if p.get("template_id")
+        }
+        counts = reconciler.reconcile_from_portkey()
     except Exception as exc:
         ss["last_sync_status"] = f"Portkey API failure: {exc}"
         return {"added": 0, "updated": 0, "deleted": 0}
-    remote_tids = {r["template_id"] for r in remote_state if r["template_id"]}
-    from backend.prompt_manager import _read_file as _rf
-    local_tids = {
-        p.get("template_id") for p in _rf().get("prompts", [])
-        if p.get("template_id")
-    }
-    counts = reconciler.reconcile_from_portkey()
+
     if counts.get("added") or counts.get("updated") or counts.get("deleted"):
         commit_status = _commit_after_change(commit_msg)
     else:
