@@ -84,6 +84,41 @@ st.markdown(
         font-weight: 600 !important;
     }
     .muted { color: #888; font-size: 0.8rem; }
+
+    /* Sidebar pinned status box */
+    section[data-testid="stSidebar"] > div { padding-bottom: 6rem; }
+    .sidebar-status {
+        position: fixed;
+        bottom: 0.75rem;
+        left: 0.75rem;
+        width: calc(var(--sidebar-width, 320px) - 1.5rem);
+        max-width: 280px;
+        background: #f8f9fb;
+        border: 1px solid #e2e6ed;
+        border-radius: 8px;
+        padding: 8px 10px;
+        font-size: 0.78rem;
+        color: #4a4a4a;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .sidebar-status .row {
+        display: flex;
+        gap: 6px;
+        align-items: baseline;
+        margin: 2px 0;
+    }
+    .sidebar-status code {
+        font-size: 0.72rem;
+        background: transparent;
+        padding: 0;
+        color: #1f4e99;
+    }
+    .sidebar-status .muted-status { color: #888; }
+    .sidebar-status .muted-status span:last-child {
+        color: #444;
+        font-weight: 500;
+        word-break: break-word;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -167,23 +202,8 @@ if APP_ROLE == "user":
 with st.sidebar:
     st.header("📚 Prompts")
     st.caption(f"Mode: **{APP_ROLE}**")
-    _gh_status = "✅" if _github_enabled() else "❌"
-    st.caption(
-        f"GitHub: {_gh_status}  repo=`{_GH_REPO or '(unset)'}`  "
-        f"token={'set' if _GH_TOKEN else 'unset'}"
-    )
-    if ss.get("last_sync_status"):
-        st.caption(f"Last sync: {ss['last_sync_status']}")
 
-    if IS_DEV:
-        c1, c2 = st.columns(2)
-        if c1.button("➕ New", use_container_width=True):
-            _clear_form()
-            st.rerun()
-        if c2.button("🔄 Refresh", use_container_width=True):
-            st.rerun()
-
-    if st.button("☁ Sync from Portkey", use_container_width=True):
+    if st.button("☁ Sync from Portkey", use_container_width=True, type="primary"):
         with st.spinner("Pulling from Portkey…"):
             try:
                 counts = _do_sync("[from-portkey] manual sync")
@@ -194,6 +214,14 @@ with st.sidebar:
             except Exception as exc:
                 st.error(f"Sync failed: {exc}")
         st.rerun()
+
+    if IS_DEV:
+        c1, c2 = st.columns(2)
+        if c1.button("➕ New", use_container_width=True):
+            _clear_form()
+            st.rerun()
+        if c2.button("🔄 Refresh", use_container_width=True):
+            st.rerun()
 
     st.divider()
 
@@ -215,6 +243,27 @@ with st.sidebar:
                 _load_record(t["latest"])
                 st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
+
+    # ── Status panel pinned at the bottom of the sidebar ────────────────────
+    _gh_ok = _github_enabled()
+    _gh_color = "#198754" if _gh_ok else "#dc3545"
+    _gh_dot = "●"
+    _last = ss.get("last_sync_status") or "no sync yet"
+    st.markdown(
+        f"""
+        <div class="sidebar-status">
+            <div class="row">
+                <span style="color:{_gh_color};">{_gh_dot}</span>
+                <span>GitHub <code>{_GH_REPO or '(unset)'}</code></span>
+            </div>
+            <div class="row muted-status">
+                <span>Last sync:</span>
+                <span>{_last}</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # ── MAIN AREA ───────────────────────────────────────────────────────────────
