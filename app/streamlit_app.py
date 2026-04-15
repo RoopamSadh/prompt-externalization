@@ -43,7 +43,8 @@ from backend.prompt_manager import (
 )
 from backend.portkey_client import send_prompt
 from backend import reconciler
-from backend.github_writer import commit_file
+from backend.github_writer import commit_file, _enabled as _github_enabled
+from config.settings import GITHUB_REPO as _GH_REPO, GITHUB_TOKEN as _GH_TOKEN
 
 # ── Page config ─────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -155,6 +156,11 @@ if APP_ROLE == "user":
 with st.sidebar:
     st.header("📚 Prompts")
     st.caption(f"Mode: **{APP_ROLE}**")
+    _gh_status = "✅" if _github_enabled() else "❌"
+    st.caption(
+        f"GitHub: {_gh_status}  repo=`{_GH_REPO or '(unset)'}`  "
+        f"token={'set' if _GH_TOKEN else 'unset'}"
+    )
 
     if IS_DEV:
         c1, c2 = st.columns(2)
