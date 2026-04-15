@@ -1,30 +1,6 @@
 {
   "prompts": [
     {
-      "id": "a830ac34-65de-4e6d-bcda-7064564530cd",
-      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
-      "version": 1,
-      "name": "Test1",
-      "is_production": false,
-      "timestamp": "2026-04-15T11:11:20.000Z",
-      "system_prompt": "You're a botanist.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "361f163fbf87af72ced37c4f26651375b6ea9d3b"
-    },
-    {
-      "id": "c7ead043-2485-4435-8d00-268d4e893e8e",
-      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
-      "version": 2,
-      "name": "Test1",
-      "is_production": false,
-      "timestamp": "2026-04-15T11:16:13.668127+00:00",
-      "system_prompt": "You're a scientist.",
-      "provider": "google",
-      "last_origin": "app",
-      "_hash": "8c1c0400844e770536b95468e30ef1dc1cd438ed"
-    },
-    {
       "id": "6a8f1ad8-10b2-4070-a40b-59579b8af9a0",
       "template_id": "261ca8a9-112c-4a24-9254-df5bec4ef5ec",
       "version": 1,
@@ -61,30 +37,6 @@
       "_hash": "18435680c6f47e5b8dec8bf02db701ea027dd27f"
     },
     {
-      "id": "adab9c8e-6bf8-49e7-8cca-a94052d9cafa",
-      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
-      "version": null,
-      "name": "Test1",
-      "is_production": false,
-      "timestamp": "2026-04-15T21:53:48.761773+00:00",
-      "system_prompt": "You're a shopkeeper.",
-      "provider": "google",
-      "last_origin": "app",
-      "_hash": "2eeb92f2fac4bb02b70686ea94aab837e6436cbc"
-    },
-    {
-      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
-      "version": 3,
-      "name": "Test1",
-      "is_production": false,
-      "timestamp": "2026-04-15T21:54:41.000Z",
-      "system_prompt": "You're a writer.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "bb2238658d87b138726256ae2983e946b1b7a554",
-      "id": "fc7432c0-f586-4905-8da3-325359512249"
-    },
-    {
       "id": "93651cd3-cdb5-4166-b23f-1252adb8ecca",
       "template_id": "4ad33ed5-ab5d-4230-b475-e7337261a72c",
       "version": 1,
@@ -109,6 +61,6 @@
       "_hash": "4e38b83ee948e3261d6458c98d2786be340c3bfd"
     }
   ],
-  "last_synced_at": "2026-04-15T22:07:53.783352+00:00",
+  "last_synced_at": "2026-04-15T22:18:17.821133+00:00",
   "version": "2.0"
 }
