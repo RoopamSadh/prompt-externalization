@@ -1,18 +1,5 @@
 {
-  "prompts": [
-    {
-      "id": "1c68c950-f8b8-45fb-acae-b00a59a62cad",
-      "template_id": "8bc9a6e5-9429-4c05-b15c-f87c3120f1b1",
-      "version": 1,
-      "name": "Test1",
-      "is_production": false,
-      "timestamp": "2026-04-15T22:49:04.805679+00:00",
-      "system_prompt": "You are a scientist",
-      "provider": "google",
-      "last_origin": "app",
-      "_hash": "b8376bf511c67d67ac5c9559680413e01d9201d3"
-    }
-  ],
-  "last_synced_at": "2026-04-15T22:46:31.048767+00:00",
+  "prompts": [],
+  "last_synced_at": "2026-04-15T22:59:14.948687+00:00",
   "version": "2.0"
 }
