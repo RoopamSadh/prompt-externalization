@@ -114,20 +114,27 @@ def _clear_form() -> None:
     ss.last_response = ""
 
 
-def _commit_after_change(message: str) -> None:
-    """Read prompts.json off disk (post-write) and push it to GitHub."""
+def _commit_after_change(message: str) -> str:
+    """Commit prompts.json via GitHub API. Returns a human-readable status."""
     try:
         content = Path(PROMPTS_FILE).read_text(encoding="utf-8")
-        commit_file(content, message)
+        ok = commit_file(content, message)
+        return "committed ✅" if ok else "commit failed ❌"
     except Exception as exc:
-        print(f"[app] commit_after_change failed: {exc}")
+        return f"commit error: {exc}"
 
 
 def _do_sync(commit_msg: str = "[from-portkey] sync") -> dict:
-    """Full reconcile + commit cycle. Returns count dict."""
+    """Full reconcile + commit cycle. Stores a status string in session state."""
     counts = reconciler.reconcile_from_portkey()
     if counts.get("added") or counts.get("updated") or counts.get("deleted"):
-        _commit_after_change(commit_msg)
+        commit_status = _commit_after_change(commit_msg)
+    else:
+        commit_status = "no changes"
+    ss["last_sync_status"] = (
+        f"added={counts['added']} updated={counts['updated']} "
+        f"deleted={counts['deleted']} → {commit_status}"
+    )
     return counts
 
 
@@ -161,6 +168,8 @@ with st.sidebar:
         f"GitHub: {_gh_status}  repo=`{_GH_REPO or '(unset)'}`  "
         f"token={'set' if _GH_TOKEN else 'unset'}"
     )
+    if ss.get("last_sync_status"):
+        st.caption(f"Last sync: {ss['last_sync_status']}")
 
     if IS_DEV:
         c1, c2 = st.columns(2)
