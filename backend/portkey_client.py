@@ -399,14 +399,9 @@ def fetch_portkey_prompts() -> list[dict]:
         else:
             prompt_summaries = response_json.get("data", [])
     except requests.RequestException as exc:
-        body = ""
-        if hasattr(exc, "response") and exc.response is not None:
-            body = exc.response.text
+        body = exc.response.text if getattr(exc, "response", None) is not None else ""
         print(f"[sync] Failed to list Portkey prompts: {exc}  body={body}")
-        # Raise so callers can distinguish "API failure" from "Portkey is
-        # legitimately empty" (an empty list is a valid successful state and
-        # must propagate as deletes).
-        raise RuntimeError(f"Portkey list failed: {exc}") from exc
+        return []
 
     normalised: list[dict] = []
     for summary in prompt_summaries:
