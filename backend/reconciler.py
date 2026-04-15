@@ -83,10 +83,9 @@ def diff_portkey_to_local() -> dict:
             add.append(r)
         else:
             l = local_by_key[key]
-            drift = (l.get("_hash") != r["_hash"]) or (
-                bool(l.get("is_production")) != r["is_production"]
-            )
-            if drift:
+            # Production flag is locally-owned for now (Portkey label sync TBD),
+            # so only consider content drift here.
+            if l.get("_hash") != r["_hash"]:
                 update.append(r)
     for key, l in local_by_key.items():
         tid, _ = key
@@ -119,8 +118,9 @@ def reconcile_from_portkey() -> dict:
         key = (p.get("template_id"), _ver_key(p.get("version")))
         if key in update_map:
             u = update_map[key]
-            for f in ("name", "system_prompt", "provider",
-                      "is_production", "timestamp", "_hash"):
+            # Note: is_production is locally-owned and intentionally NOT
+            # overwritten from Portkey here.
+            for f in ("name", "system_prompt", "provider", "timestamp", "_hash"):
                 p[f] = u[f]
             p["last_origin"] = "portkey"
 
