@@ -32,9 +32,9 @@
       "is_production": false,
       "timestamp": "2026-04-15T12:57:28.000Z",
       "system_prompt": "You're a botanist.",
-      "provider": "portkey",
+      "provider": "google",
       "last_origin": "portkey",
-      "_hash": "9d636118492f519fd2e5005cc03ab51417c092fe"
+      "_hash": "361f163fbf87af72ced37c4f26651375b6ea9d3b"
     },
     {
       "id": "fcfdfca4-5d99-4de6-a871-7f5e533dc4fc",
@@ -44,9 +44,9 @@
       "is_production": false,
       "timestamp": "2026-04-15T12:58:52.000Z",
       "system_prompt": "You're a botanist.",
-      "provider": "portkey",
+      "provider": "google",
       "last_origin": "portkey",
-      "_hash": "9d636118492f519fd2e5005cc03ab51417c092fe"
+      "_hash": "361f163fbf87af72ced37c4f26651375b6ea9d3b"
     },
     {
       "id": "6245a4fc-6bee-45b1-b88a-ce0a8eada76b",
@@ -97,6 +97,6 @@
       "_hash": "e84c48cc57a55eeb9be2fac461f64ba0ff54a9e5"
     }
   ],
-  "last_synced_at": "2026-04-15T22:07:51.529172+00:00",
+  "last_synced_at": "2026-04-15T22:07:53.783352+00:00",
   "version": "2.0"
 }
