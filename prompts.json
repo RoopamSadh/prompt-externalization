@@ -59,6 +59,18 @@
       "provider": "google",
       "last_origin": "app",
       "_hash": "18435680c6f47e5b8dec8bf02db701ea027dd27f"
+    },
+    {
+      "id": "adab9c8e-6bf8-49e7-8cca-a94052d9cafa",
+      "template_id": "ad65d6f5-3859-4ecf-9a28-79049330431b",
+      "version": null,
+      "name": "Test1",
+      "is_production": false,
+      "timestamp": "2026-04-15T21:53:48.761773+00:00",
+      "system_prompt": "You're a shopkeeper.",
+      "provider": "google",
+      "last_origin": "app",
+      "_hash": "2eeb92f2fac4bb02b70686ea94aab837e6436cbc"
     }
   ],
   "last_synced_at": "2026-04-15T12:58:59.351036+00:00",
