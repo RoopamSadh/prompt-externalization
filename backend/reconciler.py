@@ -87,10 +87,10 @@ def diff_portkey_to_local() -> dict:
             # so only consider content drift here.
             if l.get("_hash") != r["_hash"]:
                 update.append(r)
-    for key, l in local_by_key.items():
-        tid, _ = key
-        if tid not in remote_template_ids:
-            delete.append(l)
+    # NOTE: auto-delete is disabled for the POC. We do not remove local
+    # records when their template_id is missing upstream — too easy to wipe
+    # data due to a stale id or a single failed Portkey response. Re-enable
+    # by computing `delete` from the (key, l) loop and trusting the remote.
     return {"add": add, "update": update, "delete": delete}
 
 
