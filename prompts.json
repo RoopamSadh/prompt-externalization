@@ -1,21 +1,16 @@
 {
   "prompts": [
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
     {
-      "id": "f4389d66-05ce-4a82-ad76-d167d02c331c",
       "template_id": "cd7bfaa2-d687-4f03-ba7f-660df031c654",
       "version": 1,
       "name": "Test1",
       "is_production": true,
-      "timestamp": "2026-04-16T06:48:37.680076+00:00",
+      "timestamp": "2026-04-16T06:48:37.000Z",
       "system_prompt": "You are a botanist.",
       "provider": "google",
-      "last_origin": "app",
-      "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
-<<<<<<< Updated upstream
+      "last_origin": "portkey",
+      "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21",
+      "id": "1d7b7c09-e414-4a47-ba57-d2fa448ce6dc"
     },
     {
       "template_id": "aaaa1f02-2353-46b1-af0b-01dc409da93e",
@@ -27,12 +22,9 @@
       "provider": "google",
       "last_origin": "portkey",
       "_hash": "95899aa48e3de75f43ea543da20616c732638133",
-      "id": "26d52060-3905-42de-812a-49d880a645f7"
-=======
->>>>>>> Stashed changes
+      "id": "4fd22fb8-4c7b-4147-a5d7-501c93a42228"
     }
-    
   ],
-  "last_synced_at": "2026-04-16T07:38:58.002327+00:00",
+  "last_synced_at": "2026-04-16T07:42:55.824528+00:00",
   "version": "2.0"
 }
