@@ -11,20 +11,8 @@
       "provider": "google",
       "last_origin": "app",
       "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
-    },
-    {
-      "id": "15c93eb3-a53b-4c31-8e34-32c07c1849ac",
-      "template_id": "5a499354-90a1-458e-8cc1-3e65e5f52edb",
-      "version": 1,
-      "name": "Test2",
-      "is_production": true,
-      "timestamp": "2026-04-16T07:35:57.971314+00:00",
-      "system_prompt": "You are a zoologist.",
-      "provider": "google",
-      "last_origin": "app",
-      "_hash": "18435680c6f47e5b8dec8bf02db701ea027dd27f"
     }
   ],
-  "last_synced_at": "2026-04-16T07:19:40.807240+00:00",
+  "last_synced_at": "2026-04-16T07:37:46.350959+00:00",
   "version": "2.0"
 }
