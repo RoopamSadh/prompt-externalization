@@ -232,11 +232,8 @@ with st.sidebar:
         st.rerun()
 
     if IS_DEV:
-        c1, c2 = st.columns(2)
-        if c1.button("➕ New", use_container_width=True):
+        if st.button("➕ New", use_container_width=True):
             _clear_form()
-            st.rerun()
-        if c2.button("🔄 Refresh", use_container_width=True):
             st.rerun()
 
     st.divider()
