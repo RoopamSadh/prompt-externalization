@@ -32,11 +32,11 @@
       "is_production": true,
       "timestamp": "2026-04-16T06:56:05.000Z",
       "system_prompt": "You are a scientist.",
-      "provider": "portkey",
+      "provider": "google",
       "last_origin": "portkey",
-      "_hash": "6b5946e5d784eb0e5526f7541dd921611164eed0"
+      "_hash": "5d9b1aced61400e2af7fb006f4af2fd40595a3fb"
     }
   ],
-  "last_synced_at": "2026-04-16T07:01:00.255772+00:00",
+  "last_synced_at": "2026-04-16T07:01:13.772530+00:00",
   "version": "2.0"
 }
