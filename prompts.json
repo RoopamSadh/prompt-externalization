@@ -4,15 +4,27 @@
       "template_id": "dd83f0c2-8f45-4b1b-b1d7-402cbbcd240c",
       "version": 1,
       "name": "Test1",
-      "is_production": false,
+      "is_production": true,
       "timestamp": "2026-04-16T06:25:07.000Z",
       "system_prompt": "You're a botanist.",
       "provider": "google",
       "last_origin": "portkey",
       "_hash": "361f163fbf87af72ced37c4f26651375b6ea9d3b",
       "id": "352c35f4-0d8f-43e8-8f72-69484e513ec7"
+    },
+    {
+      "template_id": "562aed6e-1854-44d1-975f-220349cee086",
+      "version": 1,
+      "name": "Test2",
+      "is_production": true,
+      "timestamp": "2026-04-16T06:44:09.000Z",
+      "system_prompt": "You're a zoologist.",
+      "provider": "google",
+      "last_origin": "portkey",
+      "_hash": "95899aa48e3de75f43ea543da20616c732638133",
+      "id": "0cf3fc4a-6d3b-4a74-a071-08d8ad727357"
     }
   ],
-  "last_synced_at": "2026-04-16T06:25:40.133509+00:00",
+  "last_synced_at": "2026-04-16T06:44:21.512549+00:00",
   "version": "2.0"
 }
