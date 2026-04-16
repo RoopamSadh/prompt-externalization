@@ -1,5 +1,18 @@
 {
-  "prompts": [],
-  "last_synced_at": "2026-04-15T23:07:16.457254+00:00",
+  "prompts": [
+    {
+      "template_id": "dd83f0c2-8f45-4b1b-b1d7-402cbbcd240c",
+      "version": 1,
+      "name": "Test1",
+      "is_production": false,
+      "timestamp": "2026-04-16T06:25:07.000Z",
+      "system_prompt": "You're a botanist.",
+      "provider": "google",
+      "last_origin": "portkey",
+      "_hash": "361f163fbf87af72ced37c4f26651375b6ea9d3b",
+      "id": "352c35f4-0d8f-43e8-8f72-69484e513ec7"
+    }
+  ],
+  "last_synced_at": "2026-04-16T06:25:40.133509+00:00",
   "version": "2.0"
 }
