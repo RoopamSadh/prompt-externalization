@@ -448,13 +448,16 @@ def _save_new_or_edit(is_new_template: bool) -> None:
     new_tid = result["id"]
     new_version = int(result.get("version") or 1)
 
+    # A brand-new prompt has only one version → it's trivially the production one.
+    # Edits (new version of an existing template) stay unpublished until the
+    # dev explicitly promotes them.
     add_prompt(
         system_prompt=ss.form_system,
         provider=ss.form_provider,
         template_id=new_tid,
         version=new_version,
         name=ss.form_name or None,
-        is_production=False,
+        is_production=is_new_template,
         last_origin="app",
     )
 

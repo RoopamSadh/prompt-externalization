@@ -134,6 +134,20 @@ def reconcile_from_portkey() -> dict:
         rec["id"] = str(uuid.uuid4())
         data["prompts"].append(rec)
 
+    # Promote-default: for each template_id that has NO production-flagged
+    # version locally after this merge, mark its latest version as production.
+    # This covers Portkey prompts synced in for the first time: the single
+    # / default version becomes visible to user-mode consumers automatically.
+    from collections import defaultdict
+    by_tid = defaultdict(list)
+    for p in data["prompts"]:
+        if p.get("template_id"):
+            by_tid[p["template_id"]].append(p)
+    for tid, rows in by_tid.items():
+        if not any(r.get("is_production") for r in rows):
+            latest = max(rows, key=lambda r: _ver_key(r.get("version")))
+            latest["is_production"] = True
+
     data["prompts"].sort(key=lambda p: p.get("timestamp", ""))
     data["last_synced_at"] = datetime.now(timezone.utc).isoformat()
     data["version"] = SCHEMA_VERSION
