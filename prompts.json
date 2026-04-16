@@ -7,9 +7,9 @@
       "is_production": true,
       "timestamp": "2026-04-16T06:44:09.000Z",
       "system_prompt": "You're a zoologist.",
-      "provider": "google",
+      "provider": "portkey",
       "last_origin": "portkey",
-      "_hash": "95899aa48e3de75f43ea543da20616c732638133",
+      "_hash": "1ee4c4dea0b25cd1db975b682f4d3870f1373767",
       "id": "0cf3fc4a-6d3b-4a74-a071-08d8ad727357"
     },
     {
@@ -37,6 +37,6 @@
       "_hash": "5d9b1aced61400e2af7fb006f4af2fd40595a3fb"
     }
   ],
-  "last_synced_at": "2026-04-16T07:01:13.772530+00:00",
+  "last_synced_at": "2026-04-16T07:08:35.028316+00:00",
   "version": "2.0"
 }
