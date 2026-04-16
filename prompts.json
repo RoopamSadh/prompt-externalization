@@ -1,18 +1,6 @@
 {
   "prompts": [
     {
-      "template_id": "562aed6e-1854-44d1-975f-220349cee086",
-      "version": 1,
-      "name": "Test2",
-      "is_production": true,
-      "timestamp": "2026-04-16T06:44:09.000Z",
-      "system_prompt": "You're a zoologist.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "95899aa48e3de75f43ea543da20616c732638133",
-      "id": "0cf3fc4a-6d3b-4a74-a071-08d8ad727357"
-    },
-    {
       "id": "f4389d66-05ce-4a82-ad76-d167d02c331c",
       "template_id": "cd7bfaa2-d687-4f03-ba7f-660df031c654",
       "version": 1,
@@ -25,6 +13,6 @@
       "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
     }
   ],
-  "last_synced_at": "2026-04-16T07:09:04.963190+00:00",
+  "last_synced_at": "2026-04-16T07:19:40.807240+00:00",
   "version": "2.0"
 }
