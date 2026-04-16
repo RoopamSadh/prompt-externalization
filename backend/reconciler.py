@@ -29,6 +29,23 @@ from backend.prompt_manager import (
 )
 
 
+def _ensure_one_production_per_template(prompts: list[dict]) -> int:
+    """Mark the latest version of each template as production if no version
+    is currently flagged. Mutates prompts in place. Returns count promoted."""
+    from collections import defaultdict
+    by_tid = defaultdict(list)
+    for p in prompts:
+        if p.get("template_id"):
+            by_tid[p["template_id"]].append(p)
+    promoted = 0
+    for rows in by_tid.values():
+        if not any(r.get("is_production") for r in rows):
+            latest = max(rows, key=lambda r: _ver_key(r.get("version")))
+            latest["is_production"] = True
+            promoted += 1
+    return promoted
+
+
 # ── Fetch & normalize Portkey state into v2 records ─────────────────────────
 
 
@@ -99,12 +116,20 @@ def diff_portkey_to_local() -> dict:
 
 
 def reconcile_from_portkey() -> dict:
-    """Apply Portkey → local. Writes prompts.json only if something changed."""
+    """Apply Portkey → local. Writes prompts.json only if something changed,
+    but ALWAYS runs the promote-default invariant so a prompt with no
+    production-flagged version gets one picked for it.
+    """
     diff = diff_portkey_to_local()
-    if not (diff["add"] or diff["update"] or diff["delete"]):
-        return {"added": 0, "updated": 0, "deleted": 0}
-
     data = _read_file()
+    has_drift = bool(diff["add"] or diff["update"] or diff["delete"])
+
+    if not has_drift:
+        # Even with no content drift, enforce: every template has a production.
+        promoted = _ensure_one_production_per_template(data["prompts"])
+        if promoted:
+            _write_file(data)
+        return {"added": 0, "updated": 0, "deleted": 0}
 
     # Deletes: drop every local record whose template_id no longer exists upstream.
     if diff["delete"]:
@@ -134,19 +159,7 @@ def reconcile_from_portkey() -> dict:
         rec["id"] = str(uuid.uuid4())
         data["prompts"].append(rec)
 
-    # Promote-default: for each template_id that has NO production-flagged
-    # version locally after this merge, mark its latest version as production.
-    # This covers Portkey prompts synced in for the first time: the single
-    # / default version becomes visible to user-mode consumers automatically.
-    from collections import defaultdict
-    by_tid = defaultdict(list)
-    for p in data["prompts"]:
-        if p.get("template_id"):
-            by_tid[p["template_id"]].append(p)
-    for tid, rows in by_tid.items():
-        if not any(r.get("is_production") for r in rows):
-            latest = max(rows, key=lambda r: _ver_key(r.get("version")))
-            latest["is_production"] = True
+    _ensure_one_production_per_template(data["prompts"])
 
     data["prompts"].sort(key=lambda p: p.get("timestamp", ""))
     data["last_synced_at"] = datetime.now(timezone.utc).isoformat()
