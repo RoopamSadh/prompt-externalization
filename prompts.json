@@ -22,18 +22,6 @@
       "provider": "google",
       "last_origin": "app",
       "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
-    },
-    {
-      "template_id": "4129b9ff-1659-448d-9400-efd67776c187",
-      "version": 1,
-      "name": "Test3",
-      "is_production": true,
-      "timestamp": "2026-04-16T07:58:17.000Z",
-      "system_prompt": "You're a scientist.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "8c1c0400844e770536b95468e30ef1dc1cd438ed",
-      "id": "c6588f28-7070-44a1-9cbb-4b01bbde5878"
     }
   ],
   "last_synced_at": "2026-04-16T07:58:23.250430+00:00",
