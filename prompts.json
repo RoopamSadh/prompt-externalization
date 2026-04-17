@@ -7,9 +7,9 @@
       "is_production": true,
       "timestamp": "2026-04-16T06:48:37.000Z",
       "system_prompt": "You are a botanist.",
-      "provider": "portkey",
+      "provider": "google",
       "last_origin": "portkey",
-      "_hash": "107f701e366abee26b22b3a4c384f52b32c08d08"
+      "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
     },
     {
       "id": "b82a9bff-28bf-4b22-a8c0-093f35ef493c",
@@ -24,6 +24,6 @@
       "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
     }
   ],
-  "last_synced_at": "2026-04-17T14:19:24.512288+00:00",
+  "last_synced_at": "2026-04-17T14:19:40.074111+00:00",
   "version": "2.0"
 }
