@@ -1,42 +1,5 @@
 {
-  "prompts": [
-    {
-      "template_id": "cd7bfaa2-d687-4f03-ba7f-660df031c654",
-      "version": 1,
-      "name": "Test1",
-      "is_production": false,
-      "timestamp": "2026-04-16T06:48:37.000Z",
-      "system_prompt": "You are a botanist.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21",
-      "id": "1cf1e0dc-8cda-4aba-a482-1ea4e617dffe"
-    },
-    {
-      "template_id": "8e3b9785-cdc3-4f61-8b63-a9ed4ccf056d",
-      "version": 1,
-      "name": "Test2",
-      "is_production": true,
-      "timestamp": "2026-04-16T07:57:23.000Z",
-      "system_prompt": "You are a botanist.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21",
-      "id": "be30aefa-0c69-40b2-8fd2-00cd10a15bef"
-    },
-    {
-      "template_id": "cd7bfaa2-d687-4f03-ba7f-660df031c654",
-      "version": 2,
-      "name": "Test1",
-      "is_production": true,
-      "timestamp": "2026-04-20T10:01:37.000Z",
-      "system_prompt": "You are an expert botanist.",
-      "provider": "google",
-      "last_origin": "portkey",
-      "_hash": "0e4c13001b16064101e096ff9d577789a1659736",
-      "id": "b1fc7ec7-f4bf-425e-95cc-7abb1ac0e56d"
-    }
-  ],
-  "last_synced_at": "2026-04-20T11:01:03.879167+00:00",
+  "prompts": [],
+  "last_synced_at": "2026-04-20T11:58:25.995569+00:00",
   "version": "2.0"
 }
