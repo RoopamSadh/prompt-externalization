@@ -22,6 +22,18 @@
       "provider": "google",
       "last_origin": "app",
       "_hash": "90216d783cd0c294a36f2d04a8b99ee822adfb21"
+    },
+    {
+      "id": "7360f478-1c09-4381-a00c-d1f3a19d2a9d",
+      "template_id": "cd7bfaa2-d687-4f03-ba7f-660df031c654",
+      "version": 2,
+      "name": "Test1",
+      "is_production": false,
+      "timestamp": "2026-04-20T10:01:37.803044+00:00",
+      "system_prompt": "You are an expert botanist.",
+      "provider": "google",
+      "last_origin": "app",
+      "_hash": "0e4c13001b16064101e096ff9d577789a1659736"
     }
   ],
   "last_synced_at": "2026-04-17T14:19:40.074111+00:00",
